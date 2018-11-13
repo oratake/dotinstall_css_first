@@ -25,7 +25,9 @@
 ```
 
 ## セレクタ
-セレクタにはhtmlタグ、class属性、id属性など使用できる  
+セレクタにはhtmlタグ、class属性、id属性など使用できる。  
+classやidはhtmlタグに属性として`class="クラス名"`と記述する。  
+classは`.class名`、idは`#id名`と記述する。  
 原則、**タグに直接指定をしない**こと。  
 
 ### 指定の種類
@@ -63,7 +65,7 @@ CSSの順序は、
 `!important`が値に指定されると、どれよりも最優先になる。  
 ex) `p {color: #114514 !important;}`
 
-## プロパティ
+## 各種プロパティ
 
 ### 色指定
 color系の指定では様々な指定方法がある。  
@@ -75,7 +77,10 @@ ex) `#FFF` `#114514` 3or6桁で指定
 ex) `rgb(255, 0, 0)` 0-255で指定 `rgba(114, 36, 4, 0.8)` 透明度は0-1で指定  
 
 ※ただし、弊社では`rgb()`や色名での表記はせず、基本#16進数で記述する。  
-透明度指定をする必要がある場合にのみ`rgba()`で指定。
+透明度指定をする必要がある場合にのみ`rgba()`で指定。  
+
+なお透明度のみ指定したい場合は、  
+`opacity: 0から1;` を用いる。
 
 ### 余白(margin, padding)
 余白については、プロパティで四方個別に指定↓  
@@ -126,7 +131,7 @@ ex) `a:hover {color: #F00;}` (a要素にマウスオーバーした状態で文�
 
 ### 文字の指定
 `color:` 文字色  
-`text-align:` \[center, left, right\] 文字寄せ  
+`text-align:` \[center, left, right\] 文字寄せ(画像も寄る)  
 `font-weight:` 太さの指定
 
 ### 背景の設定
@@ -136,6 +141,51 @@ ex) `a:hover {color: #F00;}` (a要素にマウスオーバーした状態で文�
 background-image: url(./パス/指定);
 backgorund-position: 50% 50%;
 ```
+
+### ブロックに対して
+- ブロックの角を丸くしたい、ブロック自体を丸くしたい  
+`border-radius:` px指定でも、%指定でも使える。  
+- ブロックの境界を指定したい  
+`border: 幅 スタイル 色;` 個別指定はそれぞれ、-width -style -colorをつけて指定  
+- 影をつける  
+`box-shadow: x位置 y位置 ブラーの大きさ 色;` x, y位置はプラス方向がそれぞれ下と右  
+- ブロックの左,右,中央寄せ  
+`text-aligh: center;` などではインライン要素しか動かないので、marginにautoを指定する。  
+ex)  
+```css
+margin-left: auto; /* 右寄せ */
+margin-right: auto; /* 左寄せ */
+margin: 0 auto; /* 中央寄せ */
+```
+
+### ボックスを横並びにする
+1. floatを使う方法  
+ex) div.cf>div.1+div.2 を横並びにする場合  
+```css
+div.1 {
+  width: 200px;
+  float: left;
+}
+div.2 {
+  width: 300px;
+  float: right;
+}
+```
+- width指定が必須  
+- 3個以上は煩雑になりがち  
+- 親要素でclearfixしないと他の要素まで回り込む。(親要素に`overflow: hidden;`を指定する方法も)  
+※弊社の使うreset.cssでは、親要素に`.cf`をつけてclearfixできる。  
+
+1. inline-blockを使う方法  
+ex) `ul>li*複数` のとき  
+```css
+ul {font-size: 0;}
+li {display: inline-block;}
+```
+- 幅指定なしでよい  
+- 回り込みの解除を設定することもない。  
+- 隙間が空くので、親要素に`text-size: 0;`を指定する。  
+- 要素の縦がバラバラのときは`vertical-align: top;`で上揃えで並ぶ。  
 
 ## CSSの確認(Chromeの開発者ツール)
 chromeで `⌘ + Shift + i` (Winは `Ctrl + Shift + i` ) で開く開発者ツールを使う。  
